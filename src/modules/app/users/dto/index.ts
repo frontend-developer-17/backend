@@ -17,10 +17,13 @@ export class CreateUserDto {
 }
 
 export class UpdateUser {
+  @ApiProperty()
   @IsString()
   firstName: string;
+  @ApiProperty()
   @IsString()
   email: string;
+  @ApiProperty()
   @IsString()
   username: string;
 }

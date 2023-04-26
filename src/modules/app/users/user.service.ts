@@ -37,12 +37,12 @@ export class UserService {
     });
   }
 
-  async updateUser(email: string, dto: UpdateUser) {
+  async updateUser(email: string, dto: UpdateUser):Promise<UpdateUser> {
     await this.UserRepository.update(dto, { where: { email } });
     return dto;
   }
 
-  async deleteUser(email: string) {
+  async deleteUser(email: string):Promise<boolean> {
     this.UserRepository.destroy({ where: { email } });
     return true;
   }
