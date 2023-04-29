@@ -3,6 +3,7 @@ import { User } from './model/user.model';
 import { InjectModel } from '@nestjs/sequelize';
 import * as bcrypt from 'bcrypt';
 import { CreateUserDto, UpdateUser } from './dto';
+import { WatchList } from 'src/modules/watch-list/watchList.model';
 @Injectable()
 export class UserService {
   constructor(
@@ -20,30 +21,45 @@ export class UserService {
   }
 
   async createUser(dto: CreateUserDto): Promise<CreateUserDto> {
-    dto.password = await this.hashPassword(dto.password);
-    await this.UserRepository.create({
-      firstName: dto.firstName,
-      username: dto.username,
-      password: dto.password,
-      email: dto.email,
-    });
-    return this.publicUser(dto.email);
+    try {
+      dto.password = await this.hashPassword(dto.password);
+      await this.UserRepository.create({
+        firstName: dto.firstName,
+        username: dto.username,
+        password: dto.password,
+        email: dto.email,
+      });
+      return this.publicUser(dto.email);
+    } catch (err) {
+      throw new Error(err);
+    }
   }
 
   async publicUser(email: string) {
     return this.UserRepository.findOne({
       where: { email },
-      attributes: { exclude: ['password'] },
+      attributes: {
+        exclude: ['password'],
+      },
+      include: { model: WatchList, required: false },
     });
   }
 
-  async updateUser(email: string, dto: UpdateUser):Promise<UpdateUser> {
-    await this.UserRepository.update(dto, { where: { email } });
-    return dto;
+  async updateUser(email: string, dto: UpdateUser): Promise<UpdateUser> {
+    try {
+      await this.UserRepository.update(dto, { where: { email } });
+      return dto;
+    } catch (err) {
+      throw new Error(err);
+    }
   }
 
-  async deleteUser(email: string):Promise<boolean> {
-    this.UserRepository.destroy({ where: { email } });
-    return true;
+  async deleteUser(email: string): Promise<boolean> {
+    try {
+      this.UserRepository.destroy({ where: { email } });
+      return true;
+    } catch (err) {
+      throw new Error(err);
+    }
   }
 }

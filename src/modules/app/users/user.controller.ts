@@ -24,6 +24,7 @@ export class UserController {
 
     return this.userService.updateUser(data.email, dto);
   }
+
   @UseGuards(JwtAutchGuards)
   @ApiTags('Api')
   @ApiResponse({ status: 200 })
