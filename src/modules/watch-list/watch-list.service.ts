@@ -4,6 +4,7 @@ import { WatchList } from './watchList.model';
 import { CreateUserDto } from '../app/users/dto';
 import { CreateWatchList, WatchListDto } from './dto';
 import { TokenDto } from '../token/dto';
+import { User } from '../app/users/model/user.model';
 
 @Injectable()
 export class WatchListService {
@@ -13,7 +14,7 @@ export class WatchListService {
   ) {}
 
   async createWatchList(
-    user: TokenDto,
+    user: User,
     dto: WatchListDto,
   ): Promise<CreateWatchList> {
     try {

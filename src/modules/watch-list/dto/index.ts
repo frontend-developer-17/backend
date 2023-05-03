@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNumber, IsString } from 'class-validator';
+import { User } from 'src/modules/app/users/model/user.model';
 
 export class WatchListDto {
   @ApiProperty()
@@ -12,8 +13,8 @@ export class WatchListDto {
 
 export class CreateWatchList {
   @ApiProperty()
-  @IsNumber()
-  user: string;
+ 
+  user: User;
   @ApiProperty()
   @IsString()
   name: string;

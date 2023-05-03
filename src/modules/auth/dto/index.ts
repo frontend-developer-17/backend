@@ -9,12 +9,3 @@ export class LoginUserDto {
   @IsString()
   password: string;
 }
-
-export class AuthLoginServise{
-  @ApiProperty()
-  user:LoginUserDto
-  @ApiProperty()
-
-  @IsString()
-  token:string
-}
